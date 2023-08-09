@@ -1,0 +1,9 @@
+with-expecter: True
+dir: "mocks/{{.PackageName}}"
+filename: "mock_{{.InterfaceNameLower}}.go"
+outpkg: "mocks"
+packages:
+  github.com/k2sebeom/go-echo-server-template/repositories:
+    interfaces:
+      IUserRepository:
+      IAuthRepository:

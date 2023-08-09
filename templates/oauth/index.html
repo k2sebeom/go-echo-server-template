@@ -1,0 +1,24 @@
+<head>
+    <meta charset="utf-8" />
+    <title>소셜로그인</title>
+
+    <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <button id="kakao">카카오로 계속하기</button>
+    <script>
+        document.querySelector('#kakao').onclick = () => {
+            const url = 'https://kauth.kakao.com/oauth/authorize?client_id=&redirect_uri=http://localhost:8080/api/auth/social/kakao&response_type=code' 
+            window.open(url, "kakao", "width=500,height=700")
+        }
+    </script>
+
+    <button id="naver">네이버로 계속하기</button>
+    <script>
+        document.querySelector('#naver').onclick = () => {
+            const url = 'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=&redirect_uri=http://localhost:8080/api/auth/social/naver&state=' + Math.random().toString(36).substr(3, 14); 
+            window.open(url, "naver", "width=500,height=700")
+        }
+    </script>
+  </body>
+  

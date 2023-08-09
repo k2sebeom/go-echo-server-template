@@ -1,0 +1,1240 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Care25 Backend Server",
+        "title": "Care25 Server API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/auth/check": {
+            "get": {
+                "description": "Check If User Id is Usable",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Check ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Id to Check",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.CheckIdResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid Request",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    },
+                    "403": {
+                        "description": "Cannot Use Id",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to check id",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/code": {
+            "post": {
+                "description": "Send 6 digit code to given phone number",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Send Code",
+                "parameters": [
+                    {
+                        "description": "Phone Info",
+                        "name": "info",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.SendCodeRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.SendCodeResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid Request",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to send code",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/signin": {
+            "post": {
+                "description": "Sign In using id and password",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Sign In",
+                "parameters": [
+                    {
+                        "description": "SignIn Info",
+                        "name": "info",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.SignInRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.SignInResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid Request",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to sign up",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/signup": {
+            "post": {
+                "description": "Sign Up using email and password",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Sign Up",
+                "parameters": [
+                    {
+                        "description": "SignUp Info",
+                        "name": "info",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.SignUpRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.SignUpResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid Request",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to sign up",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/social/signup": {
+            "post": {
+                "description": "Social Sign Up to enter user info",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Social Sign Up",
+                "parameters": [
+                    {
+                        "description": "Social SignUp Info",
+                        "name": "info",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.SocialSignupRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.SignUpResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid Request",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to sign up",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/token": {
+            "post": {
+                "description": "Issue new token using refresh token",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Refresh Token",
+                "parameters": [
+                    {
+                        "description": "SignIn Info",
+                        "name": "info",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.SignInRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.SignInResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid Request",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    },
+                    "401": {
+                        "description": "Token Invalid",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to refresh token",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/verify": {
+            "post": {
+                "description": "Verify 6 digit code sent to phone number",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Verify Code",
+                "parameters": [
+                    {
+                        "description": "Phone Info",
+                        "name": "info",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.VerifyCodeRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.VerifyCodeResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Code does not match",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "Code never sent",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to send code",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/reservation": {
+            "post": {
+                "description": "Create Reservation for User",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Reservation"
+                ],
+                "summary": "Create New Reservation",
+                "parameters": [
+                    {
+                        "description": "Reservation Info",
+                        "name": "reservation",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.PostReservationRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.PostReservationResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid Body",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "Cannot find record for user or hospital",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to create reservation",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/reservation/payment": {
+            "post": {
+                "description": "Create Payment for Reservation",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Reservation"
+                ],
+                "summary": "Create New Payment for Reservation",
+                "parameters": [
+                    {
+                        "description": "Reservation Info",
+                        "name": "payment",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.PostReservationPaymentRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.PostReservationPaymentResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid Body",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "Cannot find record for user or hospital",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to create reservation",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Get User Information using Id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get User Info",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.GetUserResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to sign up",
+                        "schema": {
+                            "$ref": "#/definitions/echo.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/cnsapi/report": {
+            "post": {
+                "description": "Register Report Info on Particular Code",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Internal"
+                ],
+                "summary": "Register Report",
+                "parameters": [
+                    {
+                        "description": "Report Info",
+                        "name": "report",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.PostReportRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.PostReportResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Cannot find record with the given code",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Reservation Report already registered",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to register report",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/cnsapi/reservation": {
+            "get": {
+                "description": "Get Reservation Info based on Code",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Internal"
+                ],
+                "summary": "Get Reservation Info",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Reservation Code",
+                        "name": "product_code",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.GetReservationResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid Query",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Cannot find record with the given code",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to get reservation",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/cnsapi/reservation/status": {
+            "put": {
+                "description": "Update Status of Reservation",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Internal"
+                ],
+                "summary": "Update Reservation Status",
+                "parameters": [
+                    {
+                        "description": "Status Info",
+                        "name": "info",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.PutReservationStatusRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.PutReservationResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid Body",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Cannot find record with the given product code",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to update reservation",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "dto.AddressDTO": {
+            "type": "object",
+            "properties": {
+                "detail": {
+                    "type": "string"
+                },
+                "primary": {
+                    "type": "string"
+                },
+                "zip_code": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.AddressInfo": {
+            "type": "object",
+            "properties": {
+                "detail": {
+                    "type": "string"
+                },
+                "primary": {
+                    "type": "string"
+                },
+                "replace_default": {
+                    "type": "boolean"
+                },
+                "zip_code": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.ErrorMessage": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "$ref": "#/definitions/dto.ErrorMessage"
+                },
+                "status": {
+                    "$ref": "#/definitions/dto.ErrorStatus"
+                }
+            }
+        },
+        "dto.ErrorStatus": {
+            "type": "string",
+            "enum": [
+                "success",
+                "error"
+            ],
+            "x-enum-varnames": [
+                "StatusSuccess",
+                "StatusError"
+            ]
+        },
+        "dto.PasswordCredDTO": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.ReservationInfo": {
+            "type": "object",
+            "properties": {
+                "expiry_date": {
+                    "type": "string"
+                },
+                "hostpital_code": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "product_code": {
+                    "type": "string"
+                },
+                "product_type": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.ReservationInternal": {
+            "type": "object",
+            "properties": {
+                "expiry_date": {
+                    "type": "string"
+                },
+                "hostpital_code": {
+                    "type": "integer"
+                },
+                "inspected_date": {
+                    "type": "string"
+                },
+                "product_code": {
+                    "type": "string"
+                },
+                "product_status": {
+                    "type": "string"
+                },
+                "product_type": {
+                    "type": "string"
+                },
+                "purchased_date": {
+                    "type": "string"
+                },
+                "receipt_code": {
+                    "type": "string"
+                },
+                "receipt_used_date": {
+                    "type": "string"
+                },
+                "receipt_used_status": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.SocialCredDTO": {
+            "type": "object",
+            "properties": {
+                "provider": {
+                    "$ref": "#/definitions/schema.SocialProvider"
+                }
+            }
+        },
+        "dto.UsedReservationInternal": {
+            "type": "object",
+            "properties": {
+                "download_url": {
+                    "type": "string"
+                },
+                "hostpital_code": {
+                    "type": "integer"
+                },
+                "inspected_date": {
+                    "type": "string"
+                },
+                "product_code": {
+                    "type": "string"
+                },
+                "product_type": {
+                    "type": "string"
+                },
+                "receipt_code": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.UserDTO": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "$ref": "#/definitions/dto.AddressDTO"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "nickname": {
+                    "type": "string"
+                },
+                "password_cred": {
+                    "$ref": "#/definitions/dto.PasswordCredDTO"
+                },
+                "phone_number": {
+                    "type": "string"
+                },
+                "role": {
+                    "$ref": "#/definitions/schema.UserRole"
+                },
+                "social_cred": {
+                    "$ref": "#/definitions/dto.SocialCredDTO"
+                }
+            }
+        },
+        "echo.HTTPError": {
+            "type": "object",
+            "properties": {
+                "message": {}
+            }
+        },
+        "handlers.CheckIdResponse": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "handlers.GetReservationResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/dto.ReservationInternal"
+                },
+                "status": {
+                    "$ref": "#/definitions/dto.ErrorStatus"
+                }
+            }
+        },
+        "handlers.GetUserResponse": {
+            "type": "object",
+            "properties": {
+                "user": {
+                    "$ref": "#/definitions/dto.UserDTO"
+                }
+            }
+        },
+        "handlers.PostReportRequest": {
+            "type": "object",
+            "required": [
+                "download_url",
+                "product_code",
+                "receipt_code"
+            ],
+            "properties": {
+                "data": {},
+                "download_url": {
+                    "type": "string"
+                },
+                "product_code": {
+                    "type": "string"
+                },
+                "receipt_code": {
+                    "type": "string"
+                }
+            }
+        },
+        "handlers.PostReportResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/dto.UsedReservationInternal"
+                },
+                "status": {
+                    "$ref": "#/definitions/dto.ErrorStatus"
+                }
+            }
+        },
+        "handlers.PostReservationPaymentRequest": {
+            "type": "object",
+            "required": [
+                "amount",
+                "payment_key",
+                "product_code"
+            ],
+            "properties": {
+                "amount": {
+                    "type": "integer"
+                },
+                "payment_key": {
+                    "type": "string"
+                },
+                "product_code": {
+                    "type": "string"
+                }
+            }
+        },
+        "handlers.PostReservationPaymentResponse": {
+            "type": "object",
+            "properties": {
+                "payment": {
+                    "$ref": "#/definitions/services.PaymentConfirmResponse"
+                }
+            }
+        },
+        "handlers.PostReservationRequest": {
+            "type": "object",
+            "required": [
+                "address",
+                "datetime",
+                "hospital_code",
+                "product_type",
+                "receiver",
+                "receiver_phone",
+                "user_id"
+            ],
+            "properties": {
+                "address": {
+                    "$ref": "#/definitions/dto.AddressInfo"
+                },
+                "datetime": {
+                    "type": "string"
+                },
+                "delivery_request": {
+                    "type": "string"
+                },
+                "hospital_code": {
+                    "type": "integer"
+                },
+                "product_type": {
+                    "type": "string"
+                },
+                "receiver": {
+                    "type": "string"
+                },
+                "receiver_phone": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "handlers.PostReservationResponse": {
+            "type": "object",
+            "properties": {
+                "reservation": {
+                    "$ref": "#/definitions/dto.ReservationInfo"
+                }
+            }
+        },
+        "handlers.PutReservationResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/dto.ReservationInternal"
+                },
+                "status": {
+                    "$ref": "#/definitions/dto.ErrorStatus"
+                }
+            }
+        },
+        "handlers.PutReservationStatusRequest": {
+            "type": "object",
+            "required": [
+                "inspected_date",
+                "product_code",
+                "receipt_code",
+                "receipt_used_date",
+                "receipt_used_status"
+            ],
+            "properties": {
+                "inspected_date": {
+                    "type": "string"
+                },
+                "product_code": {
+                    "type": "string"
+                },
+                "receipt_code": {
+                    "type": "string"
+                },
+                "receipt_used_date": {
+                    "type": "string"
+                },
+                "receipt_used_status": {
+                    "type": "string"
+                }
+            }
+        },
+        "handlers.SendCodeRequest": {
+            "type": "object",
+            "required": [
+                "phone_number"
+            ],
+            "properties": {
+                "phone_number": {
+                    "type": "string"
+                }
+            }
+        },
+        "handlers.SendCodeResponse": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "handlers.SignInRequest": {
+            "type": "object",
+            "required": [
+                "id",
+                "password"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 1
+                }
+            }
+        },
+        "handlers.SignInResponse": {
+            "type": "object",
+            "required": [
+                "access_token",
+                "refresh_token",
+                "user_id"
+            ],
+            "properties": {
+                "access_token": {
+                    "type": "string"
+                },
+                "refresh_token": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "handlers.SignUpRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "id",
+                "name",
+                "nickname",
+                "password",
+                "phone_number"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "nickname": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 1
+                },
+                "phone_number": {
+                    "type": "string"
+                }
+            }
+        },
+        "handlers.SignUpResponse": {
+            "type": "object",
+            "required": [
+                "access_token",
+                "refresh_token",
+                "user_id"
+            ],
+            "properties": {
+                "access_token": {
+                    "type": "string"
+                },
+                "refresh_token": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "handlers.SocialSignupRequest": {
+            "type": "object",
+            "required": [
+                "hash",
+                "name",
+                "nickname",
+                "phone_number"
+            ],
+            "properties": {
+                "hash": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "nickname": {
+                    "type": "string"
+                },
+                "phone_number": {
+                    "type": "string"
+                }
+            }
+        },
+        "handlers.VerifyCodeRequest": {
+            "type": "object",
+            "required": [
+                "code",
+                "phone_number"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "phone_number": {
+                    "type": "string"
+                }
+            }
+        },
+        "handlers.VerifyCodeResponse": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.SocialProvider": {
+            "type": "string",
+            "enum": [
+                "KAKAO",
+                "NAVER",
+                "GOOGLE"
+            ],
+            "x-enum-varnames": [
+                "KAKAO",
+                "NAVER",
+                "GOOGLE"
+            ]
+        },
+        "schema.UserRole": {
+            "type": "string",
+            "enum": [
+                "ADMIN",
+                "VET",
+                "USER",
+                "WEBMASTER"
+            ],
+            "x-enum-varnames": [
+                "ADMIN",
+                "VET",
+                "USER",
+                "WEBMASTER"
+            ]
+        },
+        "services.PaymentConfirmResponse": {
+            "type": "object",
+            "properties": {
+                "approvedAt": {
+                    "type": "string"
+                },
+                "orderId": {
+                    "type": "string"
+                },
+                "paymentKey": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "totalAmount": {
+                    "type": "integer"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "JWT": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}

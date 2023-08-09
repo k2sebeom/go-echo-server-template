@@ -1,0 +1,7 @@
+tests
+bin
+scripts
+templates
+.git
+migrations
+mocks

@@ -1,0 +1,822 @@
+definitions:
+  dto.AddressDTO:
+    properties:
+      detail:
+        type: string
+      primary:
+        type: string
+      zip_code:
+        type: string
+    type: object
+  dto.AddressInfo:
+    properties:
+      detail:
+        type: string
+      primary:
+        type: string
+      replace_default:
+        type: boolean
+      zip_code:
+        type: string
+    type: object
+  dto.ErrorMessage:
+    properties:
+      message:
+        type: string
+      name:
+        type: string
+      status:
+        type: integer
+    type: object
+  dto.ErrorResponse:
+    properties:
+      message:
+        $ref: '#/definitions/dto.ErrorMessage'
+      status:
+        $ref: '#/definitions/dto.ErrorStatus'
+    type: object
+  dto.ErrorStatus:
+    enum:
+    - success
+    - error
+    type: string
+    x-enum-varnames:
+    - StatusSuccess
+    - StatusError
+  dto.PasswordCredDTO:
+    properties:
+      id:
+        type: string
+    type: object
+  dto.ReservationInfo:
+    properties:
+      expiry_date:
+        type: string
+      hostpital_code:
+        type: integer
+      id:
+        type: integer
+      product_code:
+        type: string
+      product_type:
+        type: string
+    type: object
+  dto.ReservationInternal:
+    properties:
+      expiry_date:
+        type: string
+      hostpital_code:
+        type: integer
+      inspected_date:
+        type: string
+      product_code:
+        type: string
+      product_status:
+        type: string
+      product_type:
+        type: string
+      purchased_date:
+        type: string
+      receipt_code:
+        type: string
+      receipt_used_date:
+        type: string
+      receipt_used_status:
+        type: string
+    type: object
+  dto.SocialCredDTO:
+    properties:
+      provider:
+        $ref: '#/definitions/schema.SocialProvider'
+    type: object
+  dto.UsedReservationInternal:
+    properties:
+      download_url:
+        type: string
+      hostpital_code:
+        type: integer
+      inspected_date:
+        type: string
+      product_code:
+        type: string
+      product_type:
+        type: string
+      receipt_code:
+        type: string
+    type: object
+  dto.UserDTO:
+    properties:
+      address:
+        $ref: '#/definitions/dto.AddressDTO'
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      nickname:
+        type: string
+      password_cred:
+        $ref: '#/definitions/dto.PasswordCredDTO'
+      phone_number:
+        type: string
+      role:
+        $ref: '#/definitions/schema.UserRole'
+      social_cred:
+        $ref: '#/definitions/dto.SocialCredDTO'
+    type: object
+  echo.HTTPError:
+    properties:
+      message: {}
+    type: object
+  handlers.CheckIdResponse:
+    properties:
+      status:
+        type: boolean
+    type: object
+  handlers.GetReservationResponse:
+    properties:
+      data:
+        $ref: '#/definitions/dto.ReservationInternal'
+      status:
+        $ref: '#/definitions/dto.ErrorStatus'
+    type: object
+  handlers.GetUserResponse:
+    properties:
+      user:
+        $ref: '#/definitions/dto.UserDTO'
+    type: object
+  handlers.PostReportRequest:
+    properties:
+      data: {}
+      download_url:
+        type: string
+      product_code:
+        type: string
+      receipt_code:
+        type: string
+    required:
+    - download_url
+    - product_code
+    - receipt_code
+    type: object
+  handlers.PostReportResponse:
+    properties:
+      data:
+        $ref: '#/definitions/dto.UsedReservationInternal'
+      status:
+        $ref: '#/definitions/dto.ErrorStatus'
+    type: object
+  handlers.PostReservationPaymentRequest:
+    properties:
+      amount:
+        type: integer
+      payment_key:
+        type: string
+      product_code:
+        type: string
+    required:
+    - amount
+    - payment_key
+    - product_code
+    type: object
+  handlers.PostReservationPaymentResponse:
+    properties:
+      payment:
+        $ref: '#/definitions/services.PaymentConfirmResponse'
+    type: object
+  handlers.PostReservationRequest:
+    properties:
+      address:
+        $ref: '#/definitions/dto.AddressInfo'
+      datetime:
+        type: string
+      delivery_request:
+        type: string
+      hospital_code:
+        type: integer
+      product_type:
+        type: string
+      receiver:
+        type: string
+      receiver_phone:
+        type: string
+      user_id:
+        type: integer
+    required:
+    - address
+    - datetime
+    - hospital_code
+    - product_type
+    - receiver
+    - receiver_phone
+    - user_id
+    type: object
+  handlers.PostReservationResponse:
+    properties:
+      reservation:
+        $ref: '#/definitions/dto.ReservationInfo'
+    type: object
+  handlers.PutReservationResponse:
+    properties:
+      data:
+        $ref: '#/definitions/dto.ReservationInternal'
+      status:
+        $ref: '#/definitions/dto.ErrorStatus'
+    type: object
+  handlers.PutReservationStatusRequest:
+    properties:
+      inspected_date:
+        type: string
+      product_code:
+        type: string
+      receipt_code:
+        type: string
+      receipt_used_date:
+        type: string
+      receipt_used_status:
+        type: string
+    required:
+    - inspected_date
+    - product_code
+    - receipt_code
+    - receipt_used_date
+    - receipt_used_status
+    type: object
+  handlers.SendCodeRequest:
+    properties:
+      phone_number:
+        type: string
+    required:
+    - phone_number
+    type: object
+  handlers.SendCodeResponse:
+    properties:
+      status:
+        type: string
+    type: object
+  handlers.SignInRequest:
+    properties:
+      id:
+        type: string
+      password:
+        maxLength: 255
+        minLength: 1
+        type: string
+    required:
+    - id
+    - password
+    type: object
+  handlers.SignInResponse:
+    properties:
+      access_token:
+        type: string
+      refresh_token:
+        type: string
+      user_id:
+        type: integer
+    required:
+    - access_token
+    - refresh_token
+    - user_id
+    type: object
+  handlers.SignUpRequest:
+    properties:
+      email:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      nickname:
+        type: string
+      password:
+        maxLength: 255
+        minLength: 1
+        type: string
+      phone_number:
+        type: string
+    required:
+    - email
+    - id
+    - name
+    - nickname
+    - password
+    - phone_number
+    type: object
+  handlers.SignUpResponse:
+    properties:
+      access_token:
+        type: string
+      refresh_token:
+        type: string
+      user_id:
+        type: integer
+    required:
+    - access_token
+    - refresh_token
+    - user_id
+    type: object
+  handlers.SocialSignupRequest:
+    properties:
+      hash:
+        type: string
+      name:
+        type: string
+      nickname:
+        type: string
+      phone_number:
+        type: string
+    required:
+    - hash
+    - name
+    - nickname
+    - phone_number
+    type: object
+  handlers.VerifyCodeRequest:
+    properties:
+      code:
+        type: string
+      phone_number:
+        type: string
+    required:
+    - code
+    - phone_number
+    type: object
+  handlers.VerifyCodeResponse:
+    properties:
+      status:
+        type: string
+    type: object
+  schema.SocialProvider:
+    enum:
+    - KAKAO
+    - NAVER
+    - GOOGLE
+    type: string
+    x-enum-varnames:
+    - KAKAO
+    - NAVER
+    - GOOGLE
+  schema.UserRole:
+    enum:
+    - ADMIN
+    - VET
+    - USER
+    - WEBMASTER
+    type: string
+    x-enum-varnames:
+    - ADMIN
+    - VET
+    - USER
+    - WEBMASTER
+  services.PaymentConfirmResponse:
+    properties:
+      approvedAt:
+        type: string
+      orderId:
+        type: string
+      paymentKey:
+        type: string
+      status:
+        type: string
+      totalAmount:
+        type: integer
+    type: object
+info:
+  contact: {}
+  description: Care25 Backend Server
+  title: Care25 Server API
+  version: "1.0"
+paths:
+  /api/auth/check:
+    get:
+      consumes:
+      - application/json
+      description: Check If User Id is Usable
+      parameters:
+      - description: Id to Check
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.CheckIdResponse'
+        "400":
+          description: Invalid Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "403":
+          description: Cannot Use Id
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Failed to check id
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Check ID
+      tags:
+      - Auth
+  /api/auth/code:
+    post:
+      consumes:
+      - application/json
+      description: Send 6 digit code to given phone number
+      parameters:
+      - description: Phone Info
+        in: body
+        name: info
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.SendCodeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.SendCodeResponse'
+        "400":
+          description: Invalid Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Failed to send code
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Send Code
+      tags:
+      - Auth
+  /api/auth/signin:
+    post:
+      consumes:
+      - application/json
+      description: Sign In using id and password
+      parameters:
+      - description: SignIn Info
+        in: body
+        name: info
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.SignInRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.SignInResponse'
+        "400":
+          description: Invalid Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Failed to sign up
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Sign In
+      tags:
+      - Auth
+  /api/auth/signup:
+    post:
+      consumes:
+      - application/json
+      description: Sign Up using email and password
+      parameters:
+      - description: SignUp Info
+        in: body
+        name: info
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.SignUpRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.SignUpResponse'
+        "400":
+          description: Invalid Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Failed to sign up
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Sign Up
+      tags:
+      - Auth
+  /api/auth/social/signup:
+    post:
+      consumes:
+      - application/json
+      description: Social Sign Up to enter user info
+      parameters:
+      - description: Social SignUp Info
+        in: body
+        name: info
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.SocialSignupRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.SignUpResponse'
+        "400":
+          description: Invalid Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Failed to sign up
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Social Sign Up
+      tags:
+      - Auth
+  /api/auth/token:
+    post:
+      consumes:
+      - application/json
+      description: Issue new token using refresh token
+      parameters:
+      - description: SignIn Info
+        in: body
+        name: info
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.SignInRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.SignInResponse'
+        "400":
+          description: Invalid Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "401":
+          description: Token Invalid
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Failed to refresh token
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Refresh Token
+      tags:
+      - Auth
+  /api/auth/verify:
+    post:
+      consumes:
+      - application/json
+      description: Verify 6 digit code sent to phone number
+      parameters:
+      - description: Phone Info
+        in: body
+        name: info
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.VerifyCodeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.VerifyCodeResponse'
+        "401":
+          description: Code does not match
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "404":
+          description: Code never sent
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Failed to send code
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Verify Code
+      tags:
+      - Auth
+  /api/reservation:
+    post:
+      consumes:
+      - application/json
+      description: Create Reservation for User
+      parameters:
+      - description: Reservation Info
+        in: body
+        name: reservation
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.PostReservationRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handlers.PostReservationResponse'
+        "400":
+          description: Invalid Body
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "404":
+          description: Cannot find record for user or hospital
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Failed to create reservation
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Create New Reservation
+      tags:
+      - Reservation
+  /api/reservation/payment:
+    post:
+      consumes:
+      - application/json
+      description: Create Payment for Reservation
+      parameters:
+      - description: Reservation Info
+        in: body
+        name: payment
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.PostReservationPaymentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.PostReservationPaymentResponse'
+        "400":
+          description: Invalid Body
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "404":
+          description: Cannot find record for user or hospital
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Failed to create reservation
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Create New Payment for Reservation
+      tags:
+      - Reservation
+  /api/user/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get User Information using Id
+      parameters:
+      - description: User Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.GetUserResponse'
+        "404":
+          description: User not found
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Failed to sign up
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      security:
+      - JWT: []
+      summary: Get User Info
+      tags:
+      - User
+  /cnsapi/report:
+    post:
+      consumes:
+      - application/json
+      description: Register Report Info on Particular Code
+      parameters:
+      - description: Report Info
+        in: body
+        name: report
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.PostReportRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.PostReportResponse'
+        "400":
+          description: Invalid Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Cannot find record with the given code
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "409":
+          description: Reservation Report already registered
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Failed to register report
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Register Report
+      tags:
+      - Internal
+  /cnsapi/reservation:
+    get:
+      consumes:
+      - application/json
+      description: Get Reservation Info based on Code
+      parameters:
+      - description: Reservation Code
+        in: query
+        name: product_code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.GetReservationResponse'
+        "400":
+          description: Invalid Query
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Cannot find record with the given code
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Failed to get reservation
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Get Reservation Info
+      tags:
+      - Internal
+  /cnsapi/reservation/status:
+    put:
+      consumes:
+      - application/json
+      description: Update Status of Reservation
+      parameters:
+      - description: Status Info
+        in: body
+        name: info
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.PutReservationStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.PutReservationResponse'
+        "400":
+          description: Invalid Body
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Cannot find record with the given product code
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Failed to update reservation
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Update Reservation Status
+      tags:
+      - Internal
+securityDefinitions:
+  JWT:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
